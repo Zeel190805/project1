@@ -3,64 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My First Styled Webpage</title>
+  <title>My Portfolio</title>
   <style>
+    /* Global Styles */
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      margin: 20px;
-      background-color: #f4f4f9;
+      background: #f4f4f9;
       color: #333;
     }
-    h1 {
-      color: #2c3e50;
+    header {
+      background: #2c3e50;
+      color: white;
+      padding: 20px;
       text-align: center;
     }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    header p {
+      margin: 5px 0 0;
+    }
+    nav {
+      background: #34495e;
+      text-align: center;
+      padding: 10px 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #f39c12;
+    }
+    section {
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+    }
     h2 {
-      color: #34495e;
-      border-bottom: 2px solid #ccc;
+      color: #2c3e50;
+      border-bottom: 3px solid #f39c12;
+      display: inline-block;
       padding-bottom: 5px;
     }
-    p {
-      line-height: 1.6;
+    .about, .projects, .contact {
+      margin-bottom: 50px;
     }
-    ul {
-      list-style-type: square;
-      padding-left: 20px;
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
     }
-    a {
-      color: #2980b9;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: #fff;
+    .project-card {
+      background: white;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .project-card:hover {
+      transform: scale(1.05);
+    }
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+    button {
+      background: #f39c12;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e67e22;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Welcome to My Website</h1>
-    <p>This is a simple HTML page with some CSS styling.</p>
-    
+
+  <!-- Header -->
+  <header>
+    <h1>Zeel Barvaliya</h1>
+    <p>Web Developer | Programmer | Tech Enthusiast</p>
+  </header>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- About Section -->
+  <section id="about" class="about">
     <h2>About Me</h2>
-    <p>Hello! I'm learning HTML and CSS to build beautiful websites.</p>
+    <p>Hello! I'm Zeel, a passionate web developer who loves building creative and functional websites. 
+       I enjoy learning new technologies and turning ideas into reality through code.</p>
+  </section>
 
-    <h2>My Hobbies</h2>
-    <ul>
-      <li>Coding</li>
-      <li>Reading</li>
-      <li>Traveling</li>
-    </ul>
+  <!-- Projects Section -->
+  <section id="projects" class="projects">
+    <h2>My Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>🌐 Portfolio Website</h3>
+        <p>A responsive personal portfolio to showcase my skills and work.</p>
+        <button>View</button>
+      </div>
+      <div class="project-card">
+        <h3>🛒 E-Commerce App</h3>
+        <p>An online shopping platform with cart and secure payments.</p>
+        <button>View</button>
+      </div>
+      <div class="project-card">
+        <h3>🤖 AI Chatbot</h3>
+        <p>A chatbot built with AI APIs for real-time interaction.</p>
+        <button>View</button>
+      </div>
+    </div>
+  </section>
 
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:example@email.com">example@email.com</a></p>
-  </div>
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:zeel@example.com">zeel@example.com</a></p>
+    <p>Connect with me on <a href="#">LinkedIn</a> | <a href="#">GitHub</a></p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Zeel Barvaliya | All Rights Reserved</p>
+  </footer>
+
 </body>
 </html>
