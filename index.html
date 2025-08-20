@@ -1,147 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NeonWave — Animated UI One‑Pager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    /* Global Styles */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f9;
-      color: #333;
+    :root{
+      --bg:#0b0f1a;
+      --card:#0f1526cc;
+      --muted:#9fb0d3;
+      --text:#e8eeff;
+      --accent1:#6ee7ff;
+      --accent2:#9b6bff;
+      --accent3:#ff7ad9;
+      --glass:rgba(255,255,255,.07);
+      --border:rgba(255,255,255,.10);
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --radius:18px;
     }
-    header {
-      background: #2c3e50;
-      color: white;
-      padding: 20px;
-      text-align: center;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial; 
+      color:var(--text);
+      background:radial-gradient(1200px 600px at 20% -10%, #192242 0%, transparent 60%),
+                 radial-gradient(900px 500px at 120% 10%, #291a4b 0%, transparent 60%),
+                 radial-gradient(800px 600px at 50% 120%, #142436 0%, transparent 60%),
+                 var(--bg);
+      overflow-x:hidden;
     }
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
+    a{color:inherit}
+    .container{width:min(1200px,92%);margin-inline:auto}
+
+    /* ===== Preloader ===== */
+    #preloader{
+      position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:9999;
     }
-    header p {
-      margin: 5px 0 0;
+    .spinner{
+      width:84px;height:84px;border-radius:50%;position:relative;filter:drop-shadow(0 0 12px rgba(110,231,255,.55));
+      background:
+        conic-gradient(from 0deg,var(--accent1),var(--accent2),var(--accent3),var(--accent1));
+      -webkit-mask:radial-gradient(farthest-side,transparent 56%,#000 57%);
+              mask:radial-gradient(farthest-side,transparent 56%,#000 57%);
+      animation:spin 1.2s linear infinite;
     }
-    nav {
-      background: #34495e;
-      text-align: center;
-      padding: 10px 0;
+    .spinner::after{content:"";position:absolute;inset:12px;border-radius:50%;background:#0b1020}
+    @keyframes spin{to{transform:rotate(1turn)}}
+
+    /* ===== Floating blobs / background deco ===== */
+    .blob{position:absolute;filter:blur(40px);opacity:.45;pointer-events:none}
+    .blob.b1{top:-120px;left:-120px;width:320px;height:320px;background:radial-gradient(circle at 30% 30%, var(--accent2), transparent 60%);animation:float 12s ease-in-out infinite}
+    .blob.b2{bottom:-100px;right:-160px;width:360px;height:360px;background:radial-gradient(circle at 70% 70%, var(--accent3), transparent 60%);animation:float 15s ease-in-out infinite reverse}
+    .blob.b3{top:40%;left:70%;width:240px;height:240px;background:radial-gradient(circle at 50% 50%, var(--accent1), transparent 60%);animation:float 18s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(18px)}}
+
+    /* ===== Glassy navbar ===== */
+    .nav{
+      position:sticky;top:12px;z-index:50;
     }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
+    .nav .wrap{
+      backdrop-filter:blur(12px);
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
+      border:1px solid var(--border);box-shadow:var(--shadow);
+      border-radius:calc(var(--radius) + 6px);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:10px 14px;
     }
-    nav a:hover {
-      color: #f39c12;
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
+    .brand .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      display:grid;place-items:center;box-shadow:0 8px 20px rgba(155,107,255,.35)}
+    .brand span{font-family:Poppins,Inter;font-weight:800}
+    .nav a{padding:10px 14px;border-radius:12px;text-decoration:none;color:var(--muted);font-weight:600}
+    .nav a:hover{color:var(--text);background:var(--glass)}
+    .cta{background:linear-gradient(135deg,var(--accent2),var(--accent3));color:#fff;padding:10px 16px;border-radius:12px;font-weight:800;text-decoration:none;box-shadow:0 10px 24px rgba(155,107,255,.4)}
+    .cta:hover{transform:translateY(-1px)}
+
+    /* ===== Hero ===== */
+    .hero{position:relative;padding:120px 0 80px}
+    .hero .headline{font-size:clamp(36px,7vw,66px);line-height:1.06;margin:0 0 14px;font-weight:900;background:linear-gradient(90deg,var(--accent1),var(--accent2),var(--accent3));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{color:var(--muted);font-size:clamp(16px,2.6vw,18px)}
+    .hero .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px}
+    .btn{position:relative;isolation:isolate;border:1px solid var(--border);padding:14px 18px;border-radius:14px;font-weight:800;text-decoration:none;color:var(--text);display:inline-flex;align-items:center;gap:10px}
+    .btn.primary{background:linear-gradient(135deg,var(--accent1),var(--accent2))}
+    .btn .pulse{position:absolute;inset:-2px;border-radius:inherit;background:inherit;filter:blur(14px);opacity:.55;z-index:-1}
+
+    /* ===== Hero grid card ===== */
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;margin-top:46px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .card .inner{padding:22px}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+    .kpi{background:var(--glass);border:1px solid var(--border);padding:16px;border-radius:16px;text-align:center}
+    .kpi .num{font-size:28px;font-weight:900}
+    .kpi .label{color:var(--muted);font-size:12px}
+
+    .dashboard{
+      background:linear-gradient(180deg,rgba(110,231,255,.1),rgba(110,231,255,.0));
+      border-top:1px solid var(--border);
+      padding:0;position:relative
     }
-    section {
-      padding: 40px;
-      max-width: 900px;
-      margin: auto;
+    .dash-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px}
+    .dots{display:flex;gap:8px}
+    .dot{width:10px;height:10px;border-radius:999px}
+    .dot.r{background:#ff6b6b}.dot.y{background:#ffd166}.dot.g{background:#4ad295}
+    .chart{
+      height:220px;padding:8px 14px 22px 14px
     }
-    h2 {
-      color: #2c3e50;
-      border-bottom: 3px solid #f39c12;
-      display: inline-block;
-      padding-bottom: 5px;
+    .barwrap{display:flex;align-items:flex-end;gap:10px;height:100%}
+    .bar{flex:1;background:linear-gradient(180deg,rgba(155,107,255,.9),rgba(155,107,255,.2));border-radius:10px 10px 4px 4px}
+
+    /* ===== Sections ===== */
+    section{padding:90px 0}
+    .section-title{font-size:32px;margin:0 0 10px}
+    .section-desc{color:var(--muted);margin:0 0 30px}
+
+    /* Features */
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .feature{padding:20px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--border);box-shadow:var(--shadow)}
+    .icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;margin-bottom:10px;background:linear-gradient(135deg,var(--accent2),var(--accent3))}
+
+    /* Showcase */
+    .showcase-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+    .tile{position:relative;min-height:240px;border-radius:18px;overflow:hidden;border:1px solid var(--border);background:radial-gradient(120% 120% at 0% 0%,rgba(110,231,255,.14),rgba(110,231,255,0));box-shadow:var(--shadow);transform-style:preserve-3d;transition:transform .2s ease}
+    .tile:hover{transform:translateY(-4px)}
+    .tile .caption{position:absolute;left:16px;bottom:16px;background:rgba(11,15,26,.55);backdrop-filter:blur(6px);padding:10px 12px;border-radius:12px;border:1px solid var(--border)}
+
+    /* Marquee */
+    .marquee{overflow:hidden;border:1px solid var(--border);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));}
+    .marquee-track{display:flex;gap:40px;padding:14px;animation:scroll 24s linear infinite;white-space:nowrap}
+    @keyframes scroll{to{transform:translateX(-50%)}}
+
+    /* Testimonials Carousel */
+    .carousel{position:relative}
+    .slides{display:flex;gap:16px;scroll-snap-type:x mandatory;overflow:auto;padding-bottom:8px}
+    .slides::-webkit-scrollbar{height:8px}
+    .slides::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px}
+    .testimonial{flex:0 0 360px;background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:18px}
+    .who{display:flex;align-items:center;gap:10px;margin-top:10px;color:var(--muted)}
+
+    /* Pricing */
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .plan{background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid var(--border);border-radius:18px;padding:22px;position:relative;box-shadow:var(--shadow)}
+    .badge{position:absolute;right:16px;top:16px;background:linear-gradient(135deg,var(--accent1),var(--accent2));padding:6px 10px;border-radius:999px;font-weight:800;font-size:12px}
+    .price{font-size:40px;font-weight:900;margin:8px 0}
+
+    /* FAQ */
+    .faq{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    details{background:var(--glass);border:1px solid var(--border);border-radius:14px;padding:14px}
+    details summary{cursor:pointer;font-weight:700}
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    input,textarea{width:100%;background:#0b1020;border:1px solid var(--border);border-radius:12px;padding:12px;color:var(--text);font:inherit}
+    textarea{min-height:120px;resize:vertical}
+
+    /* Footer */
+    footer{padding:28px 0;border-top:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01))}
+    .subtle{color:var(--muted)}
+
+    /* ===== Scroll reveal base ===== */
+    .reveal{opacity:0;transform:translateY(18px) scale(.98);filter:blur(4px)}
+    .reveal.in{opacity:1;transform:none;filter:none;transition:opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1), filter .9s}
+
+    /* ===== Responsive ===== */
+    @media (max-width:960px){
+      .features{grid-template-columns:1fr 1fr}
+      .pricing{grid-template-columns:1fr 1fr}
+      .hero-grid{grid-template-columns:1fr}
+      .showcase-grid{grid-template-columns:1fr}
+      .faq{grid-template-columns:1fr}
+      .contact-grid{grid-template-columns:1fr}
     }
-    .about, .projects, .contact {
-      margin-bottom: 50px;
-    }
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .project-card {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    .project-card:hover {
-      transform: scale(1.05);
-    }
-    footer {
-      background: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 15px;
-    }
-    button {
-      background: #f39c12;
-      border: none;
-      padding: 10px 20px;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #e67e22;
+    @media (max-width:600px){
+      .features{grid-template-columns:1fr}
+      .pricing{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
+  <!-- Preloader -->
+  <div id="preloader" aria-label="Loading">
+    <div class="spinner" title="Loading"></div>
+  </div>
 
-  <!-- Header -->
-  <header>
-    <h1>Zeel Barvaliya</h1>
-    <p>Web Developer | Programmer | Tech Enthusiast</p>
+  <!-- Decorative blobs -->
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <!-- Nav -->
+  <div class="nav container">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo">⚡</div>
+        <span>NeonWave</span>
+      </div>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#showcase">Showcase</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="cta" href="#get-started">Get Started</a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero container">
+    <h1 class="headline reveal">Build Stunning Animated UIs — Fast.</h1>
+    <p class="reveal">A modern one‑page template with glassmorphism, gradients, scroll‑reveal animations, and micro‑interactions. Pure HTML, CSS, and a pinch of JavaScript.</p>
+    <div class="actions reveal">
+      <a href="#features" class="btn primary"><span>Explore Features</span><span class="pulse" aria-hidden="true"></span></a>
+      <a href="#showcase" class="btn">See Showcase</a>
+    </div>
+
+    <div class="hero-grid">
+      <!-- Left: Overview card -->
+      <div class="card reveal">
+        <div class="inner">
+          <h3 style="margin:0">Live Metrics</h3>
+          <p class="subtle" style="margin-top:6px">Smooth number counters & a faux chart.</p>
+          <div class="kpis">
+            <div class="kpi"><div class="num" data-count="128">0</div><div class="label">Projects</div></div>
+            <div class="kpi"><div class="num" data-count="9860">0</div><div class="label">Stars</div></div>
+            <div class="kpi"><div class="num" data-count="99.9">0</div><div class="label">Uptime %</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Dashboard mock -->
+      <div class="card dashboard reveal">
+        <div class="dash-head">
+          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+          <strong>Realtime Overview</strong>
+          <span class="subtle">v1.0</span>
+        </div>
+        <div class="chart">
+          <div class="barwrap" id="bars"></div>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <!-- Navigation -->
-  <nav>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
-
-  <!-- About Section -->
-  <section id="about" class="about">
-    <h2>About Me</h2>
-    <p>Hello! I'm Zeel, a passionate web developer who loves building creative and functional websites. 
-       I enjoy learning new technologies and turning ideas into reality through code.</p>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" class="projects">
-    <h2>My Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <h3>🌐 Portfolio Website</h3>
-        <p>A responsive personal portfolio to showcase my skills and work.</p>
-        <button>View</button>
+  <!-- Features -->
+  <section id="features" class="container">
+    <h2 class="section-title reveal">What you get</h2>
+    <p class="section-desc reveal">Packed with tasteful animations and clean, reusable components.</p>
+    <div class="features">
+      <div class="feature reveal">
+        <div class="icon">🎨</div>
+        <h3>Glass + Gradients</h3>
+        <p class="subtle">Beautiful glass cards and neon gradients that elevate your UI instantly.</p>
       </div>
-      <div class="project-card">
-        <h3>🛒 E-Commerce App</h3>
-        <p>An online shopping platform with cart and secure payments.</p>
-        <button>View</button>
+      <div class="feature reveal">
+        <div class="icon">🧭</div>
+        <h3>Sticky Nav</h3>
+        <p class="subtle">A frosted, sticky navbar with soft motion and hover delight.</p>
       </div>
-      <div class="project-card">
-        <h3>🤖 AI Chatbot</h3>
-        <p>A chatbot built with AI APIs for real-time interaction.</p>
-        <button>View</button>
+      <div class="feature reveal">
+        <div class="icon">⚙️</div>
+        <h3>Micro‑Interactions</h3>
+        <p class="subtle">Hover lifts, pulses, counters, and subtle tilts — all in pure CSS/JS.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="icon">📱</div>
+        <h3>Responsive</h3>
+        <p class="subtle">Looks great on phones, tablets, and big desktop displays.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="icon">⚡</div>
+        <h3>Fast & Light</h3>
+        <p class="subtle">No frameworks required. Easy to copy, edit, and ship.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="icon">🔒</div>
+        <h3>Accessible</h3>
+        <p class="subtle">Semantic markup, focusable controls, and clear contrast.</p>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="contact">
-    <h2>Contact Me</h2>
-    <p>Email: <a href="mailto:zeel@example.com">zeel@example.com</a></p>
-    <p>Connect with me on <a href="#">LinkedIn</a> | <a href="#">GitHub</a></p>
+  <!-- Showcase -->
+  <section id="showcase" class="container">
+    <h2 class="section-title reveal">Showcase</h2>
+    <p class="section-desc reveal">Hover to feel the depth; everything is ultra‑smooth.</p>
+    <div class="showcase-grid">
+      <div class="tile reveal" data-tilt>
+        <div style="position:absolute;inset:0;background:conic-gradient(from 120deg at 60% 40%, rgba(155,107,255,.45), transparent 35%, rgba(110,231,255,.35));"></div>
+        <div class="caption">Motion Dashboard</div>
+      </div>
+      <div class="tile reveal" data-tilt>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg, rgba(110,231,255,.35), rgba(255,122,217,.25));"></div>
+        <div class="caption">Gradient Playground</div>
+      </div>
+    </div>
+
+    <div class="marquee" style="margin-top:24px">
+      <div class="marquee-track">
+        <span>• NeonWave • Animated UI • Glassmorphism • Gradients • Parallax • Scroll‑Reveal</span>
+        <span>• NeonWave • Animated UI • Glassmorphism • Gradients • Parallax • Scroll‑Reveal</span>
+      </div>
+    </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Testimonials Carousel -->
+  <section class="container">
+    <h2 class="section-title reveal">Loved by creators</h2>
+    <p class="section-desc reveal">What designers and developers say about this template.</p>
+    <div class="carousel reveal">
+      <div class="slides" id="carousel">
+        <article class="testimonial">
+          <p>“This template makes my side‑projects look premium in minutes. The animations feel buttery!”</p>
+          <div class="who"><span>✨</span><strong>Alex</strong> — Indie Hacker</div>
+        </article>
+        <article class="testimonial">
+          <p>“A perfect starter for landing pages. Clean, fast, and easy to tweak.”</p>
+          <div class="who"><span>🚀</span><strong>Sam</strong> — Frontend Dev</div>
+        </article>
+        <article class="testimonial">
+          <p>“The glass cards and gradients are on point. Clients love the vibe.”</p>
+          <div class="who"><span>🎯</span><strong>Maya</strong> — UI Designer</div>
+        </article>
+        <article class="testimonial">
+          <p>“No frameworks, yet feels modern. Copy, paste, done.”</p>
+          <div class="who"><span>🧩</span><strong>Dev</strong> — Freelancer</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="container">
+    <h2 class="section-title reveal">Simple pricing</h2>
+    <p class="section-desc reveal">Start free, scale when you grow.</p>
+    <div class="pricing">
+      <div class="plan reveal">
+        <span class="badge">Starter</span>
+        <h3>Free</h3>
+        <div class="price">$0</div>
+        <ul class="subtle" style="line-height:1.9">
+          <li>All core sections</li>
+          <li>Basic animations</li>
+          <li>Email support</li>
+        </ul>
+        <a class="btn" href="#get-started">Get Free</a>
+      </div>
+      <div class="plan reveal">
+        <span class="badge">Popular</span>
+        <h3>Pro</h3>
+        <div class="price">$19</div>
+        <ul class="subtle" style="line-height:1.9">
+          <li>Advanced components</li>
+          <li>Extra animations</li>
+          <li>Priority support</li>
+        </ul>
+        <a class="btn primary" href="#get-started"><span>Upgrade</span><span class="pulse"></span></a>
+      </div>
+      <div class="plan reveal">
+        <span class="badge">Teams</span>
+        <h3>Business</h3>
+        <div class="price">$49</div>
+        <ul class="subtle" style="line-height:1.9">
+          <li>Team license</li>
+          <li>Figma kit</li>
+          <li>SLAs & SSO</li>
+        </ul>
+        <a class="btn" href="#get-started">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container">
+    <h2 class="section-title reveal">FAQ</h2>
+    <p class="section-desc reveal">Quick answers to common questions.</p>
+    <div class="faq">
+      <details class="reveal"><summary>Can I use this commercially?</summary><p class="subtle">Yes, customize and use in your projects. Attribution appreciated.</p></details>
+      <details class="reveal"><summary>Does it work without JS?</summary><p class="subtle">Yes. You’ll keep layout & styles; some animations (counters/tilt) are progressive enhancements.</p></details>
+      <details class="reveal"><summary>How do I change colors?</summary><p class="subtle">Edit the CSS variables in <code>:root</code> to instantly theme the page.</p></details>
+      <details class="reveal"><summary>Is it responsive?</summary><p class="subtle">Fully responsive with smart breakpoints.</p></details>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="container">
+    <h2 class="section-title reveal">Get in touch</h2>
+    <p class="section-desc reveal">Have a project or a question? Drop a line.</p>
+    <div class="contact-grid">
+      <form class="reveal" onsubmit="event.preventDefault(); alert('Thanks! I\'ll get back to you soon.');">
+        <label>Name<br/><input required placeholder="Your name" /></label><br/><br/>
+        <label>Email<br/><input type="email" required placeholder="you@example.com" /></label><br/><br/>
+        <label>Message<br/><textarea required placeholder="Tell me a bit about your idea…"></textarea></label><br/>
+        <button class="btn primary" type="submit"><span>Send Message</span><span class="pulse"></span></button>
+      </form>
+      <div class="card reveal">
+        <div class="inner">
+          <h3>Contact Details</h3>
+          <p class="subtle">Email: hello@neonwave.dev<br/>Twitter: @neonwaveui<br/>Location: Remote • Planet Earth</p>
+          <p class="subtle">Response time: under 24 hours on weekdays.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer>
-    <p>&copy; 2025 Zeel Barvaliya | All Rights Reserved</p>
+    <div class="container" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+      <div class="subtle">© <span id="year"></span> NeonWave. All rights reserved.</div>
+      <div class="subtle">Built with ♥ — HTML • CSS • JS</div>
+    </div>
   </footer>
 
+  <script>
+    // ===== Preloader =====
+    window.addEventListener('load',()=>{
+      const p=document.getElementById('preloader');
+      p.style.opacity='0';
+      setTimeout(()=>p.remove(),400);
+    });
+
+    // ===== Year =====
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ===== Reveal on scroll =====
+    const revealEls=[...document.querySelectorAll('.reveal')];
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      })
+    },{threshold:.2});
+    revealEls.forEach(el=>io.observe(el));
+
+    // ===== Fake bars chart =====
+    const bars=document.getElementById('bars');
+    for(let i=0;i<18;i++){
+      const b=document.createElement('div');
+      b.className='bar';
+      b.style.height=(30+Math.random()*170)+'px';
+      b.style.opacity=(.4+.6*Math.random());
+      bars.appendChild(b);
+    }
+    setInterval(()=>{
+      [...bars.children].forEach((b,idx)=>{
+        b.style.height=(40+Math.random()*160)+'px';
+        b.style.transition='height .8s cubic-bezier(.22,1,.36,1)';
+      })
+    },1600);
+
+    // ===== Counters =====
+    const counters=[...document.querySelectorAll('[data-count]')];
+    counters.forEach(el=>{
+      const target=parseFloat(el.dataset.count);
+      let cur=0; const dur=1400; const start=performance.now();
+      function tick(t){
+        const p=Math.min(1,(t-start)/dur);
+        const val = (target>100? Math.floor(target*p) : (target*p).toFixed(1));
+        el.textContent=val;
+        if(p<1) requestAnimationFrame(tick); else el.textContent=target;
+      }
+      requestAnimationFrame(tick);
+    });
+
+    // ===== Tilt on hover (simple parallax) =====
+    document.querySelectorAll('[data-tilt]').forEach(card=>{
+      const r=8;
+      card.addEventListener('mousemove',e=>{
+        const b=card.getBoundingClientRect();
+        const px=(e.clientX-b.left)/b.width; const py=(e.clientY-b.top)/b.height;
+        const rx=(py-.5)*-r; const ry=(px-.5)*r;
+        card.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+      });
+      card.addEventListener('mouseleave',()=>{
+        card.style.transform='translateY(0)';
+      });
+    });
+
+    // ===== Auto-scroll carousel =====
+    const scroller=document.getElementById('carousel');
+    let auto = setInterval(()=>{
+      scroller.scrollBy({left:380,behavior:'smooth'});
+      if(scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 4){
+        setTimeout(()=>scroller.scrollTo({left:0,behavior:'smooth'}),400);
+      }
+    },2400);
+
+    // Pause on hover
+    scroller.addEventListener('mouseenter',()=>clearInterval(auto));
+    scroller.addEventListener('mouseleave',()=>{
+      auto=setInterval(()=>{
+        scroller.scrollBy({left:380,behavior:'smooth'});
+        if(scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 4){
+          setTimeout(()=>scroller.scrollTo({left:0,behavior:'smooth'}),400);
+        }
+      },2400);
+    });
+  </script>
 </body>
 </html>
